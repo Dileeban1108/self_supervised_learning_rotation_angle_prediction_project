@@ -13,4 +13,4 @@
 ## 🚀 Run
 ```bash
 python train_ssl.py
-python evaluate_downstream.py
+    python evaluate_downstream.py

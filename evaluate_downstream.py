@@ -1,4 +1,5 @@
 import torch
+from sklearn.preprocessing import StandardScaler
 from torch.utils.data import DataLoader, Subset
 from torch import nn, optim
 from sklearn.linear_model import LogisticRegression
@@ -33,10 +34,15 @@ def extract_features(loader):
 X_train, y_train = extract_features(train_loader)
 X_test, y_test = extract_features(test_loader)
 
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
 # 4. Train Logistic Regression Classifier
-clf = LogisticRegression(max_iter=1000)
+clf = LogisticRegression(max_iter=5000, solver='lbfgs')
 clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
+
 
 acc = accuracy_score(y_test, y_pred)
 print(f"📊 Downstream Classification Accuracy: {acc*100:.2f}%")
